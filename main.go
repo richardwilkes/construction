@@ -15,6 +15,7 @@ import (
 )
 
 type Config struct {
+	Cleanup   []building.Wall
 	Walls     []building.Wall
 	Buildings []building.Building
 }
@@ -35,6 +36,11 @@ func main() {
 	}
 	var totalCost fxp.Int
 	var totalDays int
+	for _, w := range config.Cleanup {
+		totalCost += w.Cost()
+		totalDays += w.DaysToBuild()
+		fmt.Println(w.String())
+	}
 	for _, w := range config.Walls {
 		totalCost += w.Cost()
 		totalDays += w.DaysToBuild()
@@ -63,15 +69,31 @@ func fillDefaults(config *Config) {
 		labor.MasterCarpenter: 3,
 		labor.Carpenter:       30,
 	}
-	config.Walls = append(config.Walls, building.Wall{
-		Name:            "Walls",
-		Length:          fxp.LengthFromInteger(140*3+60*2, fxp.Feet),
-		Height:          fxp.LengthFromInteger(10, fxp.Feet),
-		Thickness:       fxp.LengthFromInteger(1, fxp.Feet),
-		Material:        material.HardEarth,
-		MaterialQuality: materialQuality,
-		Labor:           workers,
-	})
+	config.Cleanup = append(config.Cleanup,
+		building.Wall{
+			Name:            "Rubble Removal",
+			Length:          fxp.LengthFromInteger(140*3+60*2, fxp.Feet),
+			Height:          fxp.LengthFromInteger(5, fxp.Feet),
+			Thickness:       fxp.LengthFromInteger(20, fxp.Feet),
+			Material:        material.Rubble,
+			MaterialQuality: quality.Cheap,
+			Labor: map[labor.Type]int{
+				labor.BuildingLaborer: 100,
+			},
+			Cleanup: true,
+		},
+	)
+	config.Walls = append(config.Walls,
+		building.Wall{
+			Name:            "Walls",
+			Length:          fxp.LengthFromInteger(140*3+60*2, fxp.Feet),
+			Height:          fxp.LengthFromInteger(10, fxp.Feet),
+			Thickness:       fxp.LengthFromInteger(1, fxp.Feet),
+			Material:        material.Wood,
+			MaterialQuality: materialQuality,
+			Labor:           workers,
+		},
+	)
 	for _, name := range []string{"Northeast", "Northwest", "Southeast", "Southwest"} {
 		config.Buildings = append(config.Buildings, building.Building{
 			Name:            name + " Corner Tower",

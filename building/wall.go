@@ -18,10 +18,16 @@ type Wall struct {
 	Material        material.Type      `yaml:"material"`
 	MaterialQuality quality.Quality    `yaml:"material_quality"`
 	Labor           map[labor.Type]int `yaml:"labor"`
+	Cleanup         bool               `yaml:"cleanup"`
 }
 
 func (w *Wall) Cost() fxp.Int {
-	return toFeet(w.Length).Mul(toFeet(w.Height)).Mul(fxp.Int(w.Thickness)).Mul(w.Material.CostPerInch(w.Thickness)).Mul(w.MaterialQuality.CFAdjustment() + w.OverallLaborQuality().CFAdjustment() + fxp.One).Ceil()
+	cost := toFeet(w.Length).Mul(toFeet(w.Height)).Mul(fxp.Int(w.Thickness)).Mul(w.Material.CostPerInch(w.Thickness)).Mul(w.MaterialQuality.CFAdjustment() + w.OverallLaborQuality().CFAdjustment() + fxp.One)
+	if w.Cleanup {
+		cost = cost.Mul(fxp.From(0.05))
+	}
+	return cost.Ceil()
+
 }
 
 func (w *Wall) Weight() fxp.Weight {
@@ -76,6 +82,19 @@ func (w *Wall) OverallLaborQuality() quality.LaborQuality {
 }
 
 func (w *Wall) String() string {
+	if w.Cleanup {
+		return fmt.Sprintf("%s (%v long, %v high, %v thick %s Debris; $%s, %s, %d days with %s labor)",
+			w.Name,
+			w.Length,
+			w.Height,
+			w.Thickness,
+			w.Material,
+			w.Cost().Comma(),
+			w.Weight(),
+			w.DaysToBuild(),
+			w.OverallLaborQuality(),
+		)
+	}
 	return fmt.Sprintf("%s (%v long, %v high, %v thick %s Wall; $%s, %s, DR %d, HP %d, HT %d, %d days with %s labor and %s materials)",
 		w.Name,
 		w.Length,
