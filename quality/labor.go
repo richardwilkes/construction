@@ -1,7 +1,11 @@
 package quality
 
 import (
-	"github.com/richardwilkes/gcs/v5/model/fxp"
+	"strings"
+
+	"github.com/richardwilkes/construction/fxp"
+	"github.com/richardwilkes/toolbox/errs"
+	"github.com/richardwilkes/toolbox/txt"
 )
 
 type LaborQuality Quality
@@ -25,6 +29,10 @@ func (q LaborQuality) String() string {
 	return qualities[Quality(q.EnsureValid())].LaborName
 }
 
+func (q LaborQuality) Key() string {
+	return strings.ReplaceAll(txt.ToSnakeCase(q.String()), " ", "")
+}
+
 func (q LaborQuality) CFAdjustment() fxp.Int {
 	return Quality(q.EnsureValid()).CFAdjustment()
 }
@@ -39,6 +47,21 @@ func (q LaborQuality) DRMultiplier() fxp.Int {
 
 func (q LaborQuality) HPMultiplier() fxp.Int {
 	return Quality(q.EnsureValid()).HPMultiplier()
+}
+
+func (q LaborQuality) MarshalText() ([]byte, error) {
+	return []byte(q.Key()), nil
+}
+
+func (q *LaborQuality) UnmarshalText(text []byte) error {
+	s := string(text)
+	for _, k := range LaborQualities {
+		if strings.EqualFold(s, k.Key()) {
+			*q = k
+			return nil
+		}
+	}
+	return errs.Newf("invalid Labor Quality: %q", s)
 }
 
 func init() {

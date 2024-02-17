@@ -4,22 +4,22 @@ import (
 	"fmt"
 	"math"
 
+	"github.com/richardwilkes/construction/fxp"
 	"github.com/richardwilkes/construction/labor"
 	"github.com/richardwilkes/construction/material"
 	"github.com/richardwilkes/construction/quality"
-	"github.com/richardwilkes/gcs/v5/model/fxp"
 )
 
 type Building struct {
-	Name            string
-	Length          fxp.Length
-	Width           fxp.Length
-	Height          fxp.Length
-	WallThickness   fxp.Length
-	PartitionFactor fxp.Int
-	Material        material.Type
-	MaterialQuality quality.Quality
-	Labor           map[labor.Type]int
+	Name            string             `yaml:"name"`
+	Length          fxp.Length         `yaml:"length"`
+	Width           fxp.Length         `yaml:"width"`
+	Height          fxp.Length         `yaml:"height"`
+	WallThickness   fxp.Length         `yaml:"wall_thickness"`
+	PartitionFactor fxp.Int            `yaml:"partition_factor"`
+	Material        material.Type      `yaml:"material"`
+	MaterialQuality quality.Quality    `yaml:"material_quality"`
+	Labor           map[labor.Type]int `yaml:"labor"`
 }
 
 func (b *Building) volume() fxp.Int {

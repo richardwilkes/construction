@@ -3,10 +3,13 @@ package labor
 import (
 	"cmp"
 	"slices"
+	"strings"
 
+	"github.com/richardwilkes/construction/fxp"
 	"github.com/richardwilkes/construction/quality"
-	"github.com/richardwilkes/gcs/v5/model/fxp"
 	"github.com/richardwilkes/toolbox/collection/dict"
+	"github.com/richardwilkes/toolbox/errs"
+	"github.com/richardwilkes/toolbox/txt"
 )
 
 type Type byte
@@ -44,12 +47,31 @@ func (t Type) String() string {
 	return types[t.EnsureValid()].Name
 }
 
+func (t Type) Key() string {
+	return strings.ReplaceAll(txt.ToSnakeCase(t.String()), " ", "")
+}
+
 func (t Type) Quality() quality.LaborQuality {
 	return types[t.EnsureValid()].Quality
 }
 
 func (t Type) MonthlyWage() fxp.Int {
 	return types[t.EnsureValid()].MonthlyWage
+}
+
+func (t Type) MarshalText() ([]byte, error) {
+	return []byte(t.Key()), nil
+}
+
+func (t *Type) UnmarshalText(text []byte) error {
+	s := string(text)
+	for _, k := range Types {
+		if strings.EqualFold(s, k.Key()) {
+			*t = k
+			return nil
+		}
+	}
+	return errs.Newf("invalid Labor: %q", s)
 }
 
 func init() {

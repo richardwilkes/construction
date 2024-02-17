@@ -3,9 +3,12 @@ package material
 import (
 	"cmp"
 	"slices"
+	"strings"
 
-	"github.com/richardwilkes/gcs/v5/model/fxp"
+	"github.com/richardwilkes/construction/fxp"
 	"github.com/richardwilkes/toolbox/collection/dict"
+	"github.com/richardwilkes/toolbox/errs"
+	"github.com/richardwilkes/toolbox/txt"
 )
 
 type Type byte
@@ -40,6 +43,10 @@ func (t Type) String() string {
 	return types[t.EnsureValid()].Name
 }
 
+func (t Type) Key() string {
+	return strings.ReplaceAll(txt.ToSnakeCase(t.String()), " ", "")
+}
+
 func (t Type) CostPerInch(totalThickness fxp.Length) fxp.Int {
 	return types[t.EnsureValid()].CostPerInch(totalThickness)
 }
@@ -50,6 +57,21 @@ func (t Type) WeightPerInch() fxp.Int {
 
 func (t Type) DRPerInch() fxp.Int {
 	return types[t.EnsureValid()].DRPerInch
+}
+
+func (t Type) MarshalText() ([]byte, error) {
+	return []byte(t.Key()), nil
+}
+
+func (t *Type) UnmarshalText(text []byte) error {
+	s := string(text)
+	for _, k := range Types {
+		if strings.EqualFold(s, k.Key()) {
+			*t = k
+			return nil
+		}
+	}
+	return errs.Newf("invalid Material: %q", s)
 }
 
 func init() {

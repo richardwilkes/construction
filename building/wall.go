@@ -4,20 +4,20 @@ import (
 	"fmt"
 	"math"
 
+	"github.com/richardwilkes/construction/fxp"
 	"github.com/richardwilkes/construction/labor"
 	"github.com/richardwilkes/construction/material"
 	"github.com/richardwilkes/construction/quality"
-	"github.com/richardwilkes/gcs/v5/model/fxp"
 )
 
 type Wall struct {
-	Name            string
-	Length          fxp.Length
-	Height          fxp.Length
-	Thickness       fxp.Length
-	Material        material.Type
-	MaterialQuality quality.Quality
-	Labor           map[labor.Type]int
+	Name            string             `yaml:"name"`
+	Length          fxp.Length         `yaml:"length"`
+	Height          fxp.Length         `yaml:"height"`
+	Thickness       fxp.Length         `yaml:"thickness"`
+	Material        material.Type      `yaml:"material"`
+	MaterialQuality quality.Quality    `yaml:"material_quality"`
+	Labor           map[labor.Type]int `yaml:"labor"`
 }
 
 func (w *Wall) Cost() fxp.Int {

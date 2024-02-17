@@ -3,9 +3,12 @@ package quality
 import (
 	"cmp"
 	"slices"
+	"strings"
 
-	"github.com/richardwilkes/gcs/v5/model/fxp"
+	"github.com/richardwilkes/construction/fxp"
 	"github.com/richardwilkes/toolbox/collection/dict"
+	"github.com/richardwilkes/toolbox/errs"
+	"github.com/richardwilkes/toolbox/txt"
 )
 
 type Quality byte
@@ -38,6 +41,10 @@ func (q Quality) String() string {
 	return qualities[q.EnsureValid()].MaterialName
 }
 
+func (q Quality) Key() string {
+	return strings.ReplaceAll(txt.ToSnakeCase(q.String()), " ", "")
+}
+
 func (q Quality) CFAdjustment() fxp.Int {
 	return qualities[q.EnsureValid()].CFAdjustment
 }
@@ -52,6 +59,21 @@ func (q Quality) DRMultiplier() fxp.Int {
 
 func (q Quality) HPMultiplier() fxp.Int {
 	return qualities[q.EnsureValid()].HPMultiplier
+}
+
+func (q Quality) MarshalText() ([]byte, error) {
+	return []byte(q.Key()), nil
+}
+
+func (q *Quality) UnmarshalText(text []byte) error {
+	s := string(text)
+	for _, k := range Qualities {
+		if strings.EqualFold(s, k.Key()) {
+			*q = k
+			return nil
+		}
+	}
+	return errs.Newf("invalid Quality: %q", s)
 }
 
 func init() {
