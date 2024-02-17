@@ -15,6 +15,7 @@ func main() {
 	workers := map[labor.Type]int{
 		labor.Architect:       1,
 		labor.BuildingLaborer: 20,
+		labor.MasterCarpenter: 3,
 		labor.Carpenter:       30,
 	}
 	w := building.Wall{

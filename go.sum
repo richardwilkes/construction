@@ -12,13 +12,13 @@ github.com/richardwilkes/gcs/v5 v5.20.4 h1:lZIOTjkPUioHEufFqyc4WVWFwBoT6acu6+Q+8
 github.com/richardwilkes/gcs/v5 v5.20.4/go.mod h1:PMyLeFLSs4BuV9F4WvoYGKTiQRu0OHYXR1F8ngTcgG0=
 github.com/richardwilkes/json v0.2.0 h1:ddwSjl9tc89Nv1mI3P7UnCJow8c6hq/l6TLoPlwdyLQ=
 github.com/richardwilkes/json v0.2.0/go.mod h1:QgGoe60liiLHPD/FkIApP5LMuReHWMN6TaMJf2GT6n8=
-github.com/richardwilkes/toolbox v1.105.0 h1:r9yCJSP5T5WrWbfkevnLAnMqMb7Xo9RR1jmfbuO5jDk=
-github.com/richardwilkes/toolbox v1.105.0/go.mod h1:i4A/bBgGeB3dq4aCwTrVSChymvLqERPG7OD3XEWcPhs=
+github.com/richardwilkes/toolbox v1.105.1 h1:GyroabE3bLxhgLslznnk7rjqLnZanwJzdfzCIJgLG3I=
+github.com/richardwilkes/toolbox v1.105.1/go.mod h1:Tf+BBopoP1dyKnEpKe/ArID9FIWcKeDoc5/6ETpNkPo=
 github.com/rogpeppe/go-internal v1.6.1/go.mod h1:xXDCJY+GAPziupqXw64V24skbSoqbTEfhy4qGm1nDQc=
 github.com/rogpeppe/go-internal v1.8.0 h1:FCbCCtXNOY3UtUuHUYaghJg4y7Fd14rXifAYUAtL9R8=
 github.com/rogpeppe/go-internal v1.8.0/go.mod h1:WmiCO8CzOY8rg0OYDC4/i/2WRWAB6poM+XZ2dLUbcbE=
-golang.org/x/exp v0.0.0-20240205201215-2c58cdc269a3 h1:/RIbNt/Zr7rVhIkQhooTxCxFcdWLGIKnZA4IXNFSrvo=
-golang.org/x/exp v0.0.0-20240205201215-2c58cdc269a3/go.mod h1:idGWGoKP1toJGkd5/ig9ZLuPcZBC3ewk7SzmH0uou08=
+golang.org/x/exp v0.0.0-20240213143201-ec583247a57a h1:HinSgX1tJRX3KsL//Gxynpw5CTOAIPhgL4W8PNiIpVE=
+golang.org/x/exp v0.0.0-20240213143201-ec583247a57a/go.mod h1:CxmFvTBINI24O/j8iY7H1xHzx2i4OsyguNBmN/uPtqc=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c h1:Hei/4ADfdWqJk1ZMxUNpqntNwaWcugrBjAiHlqqRiVk=
