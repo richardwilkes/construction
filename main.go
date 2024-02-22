@@ -66,8 +66,8 @@ func fillDefaults(config *Config) {
 	workers := map[labor.Type]int{
 		labor.Architect:       1,
 		labor.BuildingLaborer: 20,
-		labor.MasterCarpenter: 3,
-		labor.Carpenter:       30,
+		labor.MasterCarpenter: 4,
+		labor.Carpenter:       47,
 	}
 	config.Cleanup = append(config.Cleanup,
 		building.Wall{
@@ -151,6 +151,22 @@ func fillDefaults(config *Config) {
 			Material:        material.Wood,
 			MaterialQuality: materialQuality,
 			Labor:           workers,
+		},
+		building.Building{
+			Name:            "Smithy",
+			Length:          fxp.LengthFromInteger(20, fxp.Feet),
+			Width:           fxp.LengthFromInteger(20, fxp.Feet),
+			Height:          fxp.LengthFromInteger(10, fxp.Feet),
+			WallThickness:   fxp.LengthFromInteger(6, fxp.Inch),
+			PartitionFactor: fxp.Half,
+			Material:        material.Brick,
+			MaterialQuality: materialQuality,
+			Labor: map[labor.Type]int{
+				labor.Architect:       1,
+				labor.BuildingLaborer: 20,
+				labor.MasterMason:     1,
+				labor.Mason:           10,
+			},
 		},
 	)
 }
